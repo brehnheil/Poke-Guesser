@@ -1,5 +1,5 @@
-# Logs
-logs
+# === Logs ===
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,18 +7,36 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# === Dependencies & build output ===
+node_modules/
+dist/
+dist-ssr/
 
-# Editor directories and files
+# === Environment files ===
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# === Tooling / IDE ===
 .vscode/*
 !.vscode/extensions.json
-.idea
+.idea/
+.eslintcache
+
+# === OS cruft ===
 .DS_Store
+
+# === Editor/legacy project files ===
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# === Hosts / platforms ===
+.vercel/
+
+# === Testing ===
+coverage/
