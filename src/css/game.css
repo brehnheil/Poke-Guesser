@@ -1,0 +1,203 @@
+/* ---------- Game (Play Screen) ---------- */
+:root {
+  --bg: #0b0f19;
+  --panel: rgba(255,255,255,.06);
+  --border: rgba(255,255,255,.12);
+  --text: #e7e9ee;
+  --muted: #b8c2d9;
+  --primary: #6ea1ff;
+  --danger: #ff6e6e;
+  --shadow: 0 10px 30px rgba(0, 0, 0, .35);
+}
+
+.game {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 18px;
+  padding: 24px;
+  background: radial-gradient(1000px 500px at 20% -10%, #1a2246 0%, transparent 60%),
+              radial-gradient(900px 500px at 100% 100%, #1a315a 0%, transparent 60%),
+              var(--bg);
+  color: var(--text);
+}
+
+/* HUD */
+.hud {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.pill {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 14px;
+  box-shadow: var(--shadow);
+  color: #cfe0ff;
+}
+.pill strong { color: #fff; }
+
+/* Stage */
+.stage {
+  display: grid;
+  place-items: center;
+  align-content: start;
+  gap: 18px;
+}
+
+/* Pokémon image card */
+.sprite {
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: clamp(16px, 3vw, 28px);
+  box-shadow: var(--shadow);
+  width: min(480px, 92vw);
+  display: grid;
+  place-items: center;
+}
+.sprite img {
+  width: min(360px, 84vw);
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: filter 300ms ease, transform 250ms ease;
+}
+.sprite img:hover { transform: translateY(-2px); }
+
+/* Silhouette / reveal */
+.silhouette { filter: grayscale(1) brightness(0); }
+.revealed { filter: none; }
+
+/* Guess form */
+.guess-form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.input {
+  background: #0f1426;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: .8rem 1rem;
+  min-width: min(420px, 80vw);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.input:focus {
+  border-color: #3756a5;
+  box-shadow: 0 0 0 4px rgba(110,161,255,.18);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  padding: .8rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #141a2b;
+  color: var(--text);
+  cursor: pointer;
+  transition: transform .1s ease, background .2s ease, border-color .2s ease;
+}
+.btn:hover { transform: translateY(-1px); border-color: #2a355a; }
+.btn:active { transform: translateY(0); }
+.btn-primary {
+  background: linear-gradient(180deg, #8bb6ff, #6ea1ff);
+  color: #0d1a3a;
+  border-color: transparent;
+  box-shadow: 0 6px 18px rgba(110,161,255, .35);
+}
+
+/* Reveal & game over sections */
+.reveal, .gameover {
+  text-align: center;
+  display: grid;
+  gap: 10px;
+}
+.answer {
+  margin: 0;
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+}
+.answer span {
+  text-transform: capitalize;
+  color: #e7f0ff;
+  text-shadow: 0 2px 14px rgba(110,161,255,.35);
+}
+
+/* Loading */
+.loading {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  background: var(--bg);
+}
+
+/* Responsiveness */
+@media (max-width: 520px) {
+  .hud { gap: 8px; }
+  .pill { padding: 6px 12px; }
+}
+
+/* Shared navbar */
+.app-nav {
+  position: sticky; /* keeps it visible on scroll */
+  top: 0;
+  z-index: 50;
+  background: rgba(10, 14, 26, 0.8);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.app-nav__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-nav__brand {
+  font-weight: 800;
+  letter-spacing: .3px;
+  color: #cfe0ff;
+}
+
+.app-nav__links {
+  display: flex;
+  gap: 10px;
+}
+
+.app-nav__link {
+  padding: .55rem .8rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: #141a2b;
+  color: #e7e9ee;
+  transition: transform .1s ease, border-color .2s ease, background .2s ease;
+}
+.app-nav__link:hover { transform: translateY(-1px); border-color: #2a355a; }
+
+.app-nav__cta {
+  background: linear-gradient(180deg, #8bb6ff, #6ea1ff);
+  color: #0d1a3a;
+  border-color: transparent;
+  box-shadow: 0 6px 18px rgba(110,161,255,.35);
+}
+
+/* Space for sticky nav so page content doesn't crowd it */
+.home,
+.game {
+  padding-top: 12px; /* small breathing room under the nav */
+}

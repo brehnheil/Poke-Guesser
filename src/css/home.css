@@ -1,0 +1,200 @@
+/* ---------- Home (Landing) ---------- */
+:root {
+  --bg: #0b0f19;
+  --bg-accent: radial-gradient(1200px 600px at 10% 0%, #1b2451 0%, transparent 60%),
+               radial-gradient(1200px 600px at 90% 100%, #233972 0%, transparent 60%);
+  --card: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.12);
+  --text: #e7e9ee;
+  --muted: #b8c2d9;
+  --primary: #6ea1ff;
+  --primary-ink: #0d1a3a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .7rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #141a2b;
+  color: var(--text);
+  cursor: pointer;
+  transition: transform .1s ease, background .2s ease, border-color .2s ease;
+}
+.btn:hover { transform: translateY(-1px); border-color: #2a355a; }
+.btn:active { transform: translateY(0); }
+
+.btn-primary {
+  background: linear-gradient(180deg, #8bb6ff, #6ea1ff);
+  color: var(--primary-ink);
+  border-color: transparent;
+  box-shadow: 0 6px 18px rgba(110,161,255, .35);
+}
+.btn-primary:hover { filter: brightness(1.06); }
+
+.btn-ghost { background: transparent; }
+
+.btn-lg { padding: .9rem 1.2rem; font-size: 1.05rem; }
+
+/* Layout */
+.home {
+  min-height: 100svh;          /* was 100dvh */
+  display: grid;
+  grid-template-rows: auto 1fr; /* drop the trailing 'auto' that used to be for the footer */
+  overflow-x: hidden;          /* avoids stray horizontal scroll from gradients */
+}
+
+
+/* Top nav */
+.home__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(6px);
+}
+.home__brand {
+  font-weight: 700;
+  letter-spacing: .4px;
+  color: #cfe0ff;
+}
+
+/* Hero */
+.home__hero {
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+}
+.home__card {
+  width: min(780px, 92vw);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+.home__title {
+  margin: 0 0 8px;
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  background: linear-gradient(90deg, #e7f0ff, #8bb6ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.home__subtitle {
+  margin: 0 auto 18px;
+  max-width: 46ch;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.home__actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+/* How-to */
+.home__howto {
+  width: min(760px, 92vw);
+  margin: 28px auto 0;
+  color: #c7d5ff;
+}
+.home__howto h2 { margin: 0 0 8px; font-size: 1.1rem; color: #e5edff; }
+.home__howto ol {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  line-height: 1.7;
+  opacity: .9;
+}
+
+/* Footer */
+.home__footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;        /* ensures full-width */
+  padding: 12px 20px;
+  text-align: center;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+}
+
+
+/* Shared navbar */
+.app-nav {
+  position: sticky; /* keeps it visible on scroll */
+  top: 0;
+  z-index: 50;
+  background: rgba(10, 14, 26, 0.8);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.app-nav__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-nav__brand {
+  font-weight: 800;
+  letter-spacing: .3px;
+  color: #cfe0ff;
+}
+
+.app-nav__links {
+  display: flex;
+  gap: 10px;
+}
+
+.app-nav__link {
+  padding: .55rem .8rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: #141a2b;
+  color: #e7e9ee;
+  transition: transform .1s ease, border-color .2s ease, background .2s ease;
+}
+.app-nav__link:hover { transform: translateY(-1px); border-color: #2a355a; }
+
+.app-nav__cta {
+  background: linear-gradient(180deg, #8bb6ff, #6ea1ff);
+  color: #0d1a3a;
+  border-color: transparent;
+  box-shadow: 0 6px 18px rgba(110,161,255,.35);
+}
+
+/* Space for sticky nav so page content doesn't crowd it */
+.home,
+.game {
+  padding-top: 12px; /* small breathing room under the nav */
+}
