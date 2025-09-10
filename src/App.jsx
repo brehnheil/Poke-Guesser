@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Game from "./pages/Game";
 import Navbar from "./components/Navbar";
 import HowToPlay from "./pages/HowToPlay";
+import Protected from "./components/Protected";
 
 function App() {
   const [count, setCount] = useState(0);
