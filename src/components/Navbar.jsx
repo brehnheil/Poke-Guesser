@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import "../css/navbar.css"
+import "../css/navbar.css";
 
 export default function Navbar() {
   const { user, loading, message, signInWithEmail, signOut } = useAuth();
@@ -15,17 +15,19 @@ export default function Navbar() {
         <Link to="/howtoplay">How To Play</Link>
       </div>
 
-      <div className="right" style={{ display: "flex", gap: 8, alignItems: "center" }}>
+      <div className="right">
         {!loading && (
           user ? (
             <>
-              <span style={{ fontSize: 14 }}>Hi, {user.email}</span>
+              <span>Hi, {user.email}</span>
               <button onClick={signOut}>Log out</button>
             </>
           ) : (
             <form
-              onSubmit={(e) => { e.preventDefault(); signInWithEmail(email); }}
-              style={{ display: "flex", gap: 6 }}
+              onSubmit={(e) => {
+                e.preventDefault();
+                signInWithEmail(email);
+              }}
             >
               <input
                 type="email"
@@ -33,13 +35,12 @@ export default function Navbar() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                style={{ padding: "4px 8px" }}
               />
               <button type="submit">Send Link</button>
             </form>
           )
         )}
-        {!loading && !user && message && <span style={{ fontSize: 12 }}>{message}</span>}
+        {!loading && !user && message && <span className="msg">{message}</span>}
       </div>
     </nav>
   );
