@@ -10,7 +10,7 @@ import {
   getTopSince,
   subscribeLeaderboard,
 } from "../lib/leaderboard";
-import "../css/Leaderboard.css"; // ⟵ add this
+import "../css/leaderboard.css";
 
 // Two leaderboard tabs: all-time and last 7 days
 const TABS = [
