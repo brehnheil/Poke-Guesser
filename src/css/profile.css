@@ -1,0 +1,65 @@
+.profile-s1 {
+  padding: 20px;
+}
+
+.profile-s2 {
+  padding: 20px;
+}
+
+.profile-s3 {
+  max-width: 520px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.profile-s4 {
+  margin-bottom: 16px;
+}
+
+.profile-s5 {
+  margin-bottom: 12px;
+}
+
+.profile-s6 {
+  display: grid;
+  gap: 12px;
+}
+
+.profile-s7 {
+  display: grid;
+  gap: 6px;
+}
+
+.profile-s8 {
+  padding: 10px 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.profile-s9 {
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.profile-s10 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-s11 {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.profile-s12 {
+  font-size: 24px;
+}
+
+.profile-s13 {
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin-left: auto;
+}

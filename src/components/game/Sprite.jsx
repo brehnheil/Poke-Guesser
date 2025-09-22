@@ -1,3 +1,8 @@
+// Sprite.jsx
+// Displays the Pokémon image for the game.
+// - Shows either a silhouette or the revealed version depending on `reveal`.
+// - Prevents dragging so the image can’t be pulled out of the UI.
+
 export default function Sprite({ image, alt, reveal }) {
   return (
     <div className="sprite">

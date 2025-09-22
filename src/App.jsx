@@ -5,6 +5,7 @@ import Game from "./pages/Game";
 import Navbar from "./components/Navbar";
 import HowToPlay from "./pages/HowToPlay";
 import Protected from "./components/Protected";
+import Profile from "./pages/Profile";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -18,6 +19,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/game" element={<Game />} />
             <Route path="/howtoplay" element={<HowToPlay />} />
+            <Route path="/profile" element={<Protected><Profile /></Protected>} />
           </Routes>
         </main>
       </div>
