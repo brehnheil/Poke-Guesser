@@ -1,0 +1,75 @@
+/* Container */
+.leaderboard-container {
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* Header */
+.leaderboard-title {
+  margin-bottom: 16px;
+}
+
+/* Tabs + Refresh row */
+.leaderboard-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+/* Buttons */
+.tab-button,
+.refresh-button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+}
+
+.tab-button.active {
+  background: #eef2ff;
+}
+
+.refresh-button {
+  margin-left: auto;
+}
+
+/* Table */
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leaderboard-table thead tr {
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 10px 8px;
+}
+
+/* Column widths */
+.leaderboard-table .col-rank {
+  width: 60px;
+}
+
+.leaderboard-table .col-score {
+  width: 140px;
+}
+
+.leaderboard-table .col-date {
+  width: 220px;
+}
+
+/* Rows */
+.leaderboard-table tbody tr {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+/* Username emphasis */
+.username {
+  font-weight: 600;
+}
