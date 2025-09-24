@@ -16,7 +16,12 @@ import { supabase } from "../lib/supabaseClient";
 import { useAuth } from "../context/AuthContext";
 import "../css/game.css";
 
-const normalize = (s) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+const normalize = (s) => (s || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+
+const TIMER_MS = 10000;              // 10 seconds per round
+const TICK_MS = 50;                  // update granularity
+const MAX_POINTS_PER_ROUND = 1000;   // max if answered immediately
+const GRACE_MS = 1000;                // buffer before countdown starts (lets 1000 be attainable)
 
 export default function Game() {
   const { list: pokemonList, loading, getRandom } = usePokemonList(151);
@@ -29,7 +34,17 @@ export default function Game() {
   const [round, setRound] = useState(1);
   const maxRounds = 10;
 
+  // Timer state
+  const [timeLeft, setTimeLeft] = useState(TIMER_MS);
+  const timerRef = useRef(null);
+  const kickoffRef = useRef(null);
+
+  // Save-once guard
   const didSaveRef = useRef(false);
+
+  // Per-round result details for Reveal screen
+  const [lastAward, setLastAward] = useState(0);
+  const [lastCorrect, setLastCorrect] = useState(false);
 
   // Pick a new random Pokémon for each round
   useEffect(() => {
@@ -37,6 +52,36 @@ export default function Game() {
       setCurrent(getRandom());
     }
   }, [loading, pokemonList, current, getRandom]);
+
+  // Start/stop timer on phase transitions (with grace/buffer)
+  useEffect(() => {
+    clearInterval(timerRef.current);
+    clearTimeout(kickoffRef.current);
+
+    if (phase === "guess" && current) {
+      setTimeLeft(TIMER_MS);
+
+      // Delay the countdown a hair so a super-fast correct can still yield 1000
+      kickoffRef.current = setTimeout(() => {
+        timerRef.current = setInterval(() => {
+          setTimeLeft((ms) => {
+            const next = ms - TICK_MS;
+            if (next <= 0) {
+              clearInterval(timerRef.current);
+              setPhase("reveal"); // time up → auto reveal (no points)
+              return 0;
+            }
+            return next;
+          });
+        }, TICK_MS);
+      }, GRACE_MS);
+    }
+
+    return () => {
+      clearInterval(timerRef.current);
+      clearTimeout(kickoffRef.current);
+    };
+  }, [phase, current]);
 
   // When game ends, record score if logged in
   useEffect(() => {
@@ -62,16 +107,33 @@ export default function Game() {
   function submitGuess(value) {
     if (!current) return;
     const correct = normalize(value) === normalize(current.name);
-    if (correct) setScore((s) => s + 100);
+
+    // Stop timer & grace
+    clearInterval(timerRef.current);
+    clearTimeout(kickoffRef.current);
+
+    let award = 0;
+    if (correct) {
+      award = Math.max(0, Math.round((timeLeft / TIMER_MS) * MAX_POINTS_PER_ROUND));
+      setScore((s) => s + award);
+    }
+
+    // Remember round result for Reveal screen
+    setLastAward(award);
+    setLastCorrect(!!correct);
+
     setPhase("reveal");
   }
 
   // Advance to the next round
   function nextRound() {
-    if (round >= maxRounds) return setPhase("over");
+    if (round >= maxRounds) {
+      setPhase("over");
+      return;
+    }
     setCurrent(getRandom(current?.id));
     setRound((r) => r + 1);
-    setPhase("guess");
+    setPhase("guess"); // timer restarts via effect
   }
 
   // Restart the game
@@ -80,7 +142,9 @@ export default function Game() {
     setRound(1);
     setCurrent(getRandom());
     setPhase("guess");
-    didSaveRef.current = false; // allow saving for the new run
+    didSaveRef.current = false;
+    setLastAward(0);
+    setLastCorrect(false);
   }
 
   if (loading || !current) {
@@ -95,16 +159,37 @@ export default function Game() {
   return (
     <>
       <main className="game">
+        {/* Top-center HUD (round + score) */}
         <Hud round={round} maxRounds={maxRounds} score={score} />
+
         <section className="stage">
-          <Sprite
-            image={current.image}
-            alt={phase === "reveal" ? current.name : "Who's that Pokémon?"}
-            reveal={phase !== "guess"}
-          />
+          <div className="sprite-wrapper">
+            <Sprite
+              image={current.image}
+              alt={phase === "reveal" ? current.name : "Who's that Pokémon?"}
+              reveal={phase !== "guess"}
+            />
+            <div className={`timer-bar-container ${phase !== "guess" ? "timer-bar-paused" : ""}`}>
+              <div
+                key={round}
+                className={`timer-bar-fill ${phase === "guess" ? "running" : ""}`}
+                aria-label="Time remaining"
+                role="progressbar"
+              />
+            </div>
+          </div>
 
           {phase === "guess" && <GuessForm onSubmit={submitGuess} />}
-          {phase === "reveal" && <Reveal name={current.name} onNext={nextRound} />}
+
+          {phase === "reveal" && (
+            <Reveal
+              name={current.name}
+              wasCorrect={lastCorrect}
+              award={lastAward}
+              onNext={nextRound}
+            />
+          )}
+
           {phase === "over" && <GameOver score={score} onRestart={resetGame} />}
         </section>
       </main>

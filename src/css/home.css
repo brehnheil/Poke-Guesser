@@ -1,9 +1,9 @@
-/* ---------- Home (Landing) ---------- */
 :root {
   --bg: #0b0f19;
-  --bg-accent: radial-gradient(1200px 600px at 10% 0%, #1b2451 0%, transparent 60%),
-               radial-gradient(1200px 600px at 90% 100%, #233972 0%, transparent 60%);
-  --card: rgba(255, 255, 255, 0.06);
+  --bg-accent:
+    radial-gradient(1200px 600px at 10% 0%, #1b2451 0%, transparent 60%),
+    radial-gradient(1200px 600px at 90% 100%, #233972 0%, transparent 60%);
+  --panel: rgba(255, 255, 255, 0.06);
   --border: rgba(255, 255, 255, 0.12);
   --text: #e7e9ee;
   --muted: #b8c2d9;
@@ -20,7 +20,8 @@ html, body, #root { height: 100%; }
 
 body {
   margin: 0;
-  background: var(--bg);
+  /* Accent background layers first, then solid base */
+  background: var(--bg-accent), var(--bg);
   color: var(--text);
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
   -webkit-font-smoothing: antialiased;
@@ -29,6 +30,7 @@ body {
 
 a { color: inherit; text-decoration: none; }
 
+/* ==== Buttons (shared with Game) ==== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -39,7 +41,7 @@ a { color: inherit; text-decoration: none; }
   background: #141a2b;
   color: var(--text);
   cursor: pointer;
-  transition: transform .1s ease, background .2s ease, border-color .2s ease;
+  transition: transform .1s ease, background .2s ease, border-color .2s ease, filter .2s ease;
 }
 .btn:hover { transform: translateY(-1px); border-color: #2a355a; }
 .btn:active { transform: translateY(0); }
@@ -52,35 +54,20 @@ a { color: inherit; text-decoration: none; }
 }
 .btn-primary:hover { filter: brightness(1.06); }
 
-.btn-ghost { background: transparent; }
+.btn-ghost { background: transparent; border-color: var(--border); }
 
 .btn-lg { padding: .9rem 1.2rem; font-size: 1.05rem; }
 
-/* Layout */
+/* ==== Layout (landing) ==== */
 .home {
-  min-height: 100svh;          /* was 100dvh */
+  min-height: 100svh;           /* safe viewport height for mobile */
   display: grid;
-  grid-template-rows: auto 1fr; /* drop the trailing 'auto' that used to be for the footer */
-  overflow-x: hidden;          /* avoids stray horizontal scroll from gradients */
+  grid-template-rows: 1fr auto; /* content + footer */
+  overflow-x: hidden;           /* avoids stray horizontal scroll from gradients */
+  padding-top: 12px;            /* breathing room under sticky nav */
 }
 
-
-/* Top nav */
-.home__nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 24px;
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(6px);
-}
-.home__brand {
-  font-weight: 700;
-  letter-spacing: .4px;
-  color: #cfe0ff;
-}
-
-/* Hero */
+/* ==== Hero ==== */
 .home__hero {
   display: grid;
   place-items: center;
@@ -91,7 +78,7 @@ a { color: inherit; text-decoration: none; }
   background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
   border: 1px solid var(--border);
   border-radius: 20px;
-  padding: 32px;
+  padding: clamp(24px, 3.6vw, 36px);
   box-shadow: var(--shadow);
   text-align: center;
   backdrop-filter: blur(10px);
@@ -118,35 +105,35 @@ a { color: inherit; text-decoration: none; }
   flex-wrap: wrap;
 }
 
-/* How-to */
+/* ==== How to Play (reuses card spacing/width) ==== */
 .home__howto {
   width: min(760px, 92vw);
   margin: 28px auto 0;
   color: #c7d5ff;
 }
-.home__howto h2 { margin: 0 0 8px; font-size: 1.1rem; color: #e5edff; }
+.home__howto .home__title { margin-bottom: 6px; }
 .home__howto ol {
   margin: 8px 0 0;
   padding-left: 20px;
   line-height: 1.7;
   opacity: .9;
 }
+.home__tip {
+  margin-top: 12px;
+  color: var(--muted);
+}
 
-/* Footer */
+/* ==== Footer (simple credit) ==== */
 .home__footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;        /* ensures full-width */
   padding: 12px 20px;
   text-align: center;
   color: var(--muted);
   border-top: 1px solid var(--border);
-  background: var(--bg);
+  background: rgba(10, 14, 26, 0.8);
+  backdrop-filter: blur(6px);
 }
 
-
-/* Shared navbar */
+/* ==== Sticky Navbar (shared visual language) ==== */
 .app-nav {
   position: sticky; /* keeps it visible on scroll */
   top: 0;
@@ -155,7 +142,6 @@ a { color: inherit; text-decoration: none; }
   backdrop-filter: blur(8px);
   border-bottom: 1px solid rgba(255,255,255,0.12);
 }
-
 .app-nav__inner {
   max-width: 1100px;
   margin: 0 auto;
@@ -164,18 +150,12 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   justify-content: space-between;
 }
-
 .app-nav__brand {
   font-weight: 800;
   letter-spacing: .3px;
   color: #cfe0ff;
 }
-
-.app-nav__links {
-  display: flex;
-  gap: 10px;
-}
-
+.app-nav__links { display: flex; gap: 10px; }
 .app-nav__link {
   padding: .55rem .8rem;
   border-radius: 12px;
@@ -185,16 +165,9 @@ a { color: inherit; text-decoration: none; }
   transition: transform .1s ease, border-color .2s ease, background .2s ease;
 }
 .app-nav__link:hover { transform: translateY(-1px); border-color: #2a355a; }
-
 .app-nav__cta {
   background: linear-gradient(180deg, #8bb6ff, #6ea1ff);
   color: #0d1a3a;
   border-color: transparent;
   box-shadow: 0 6px 18px rgba(110,161,255,.35);
-}
-
-/* Space for sticky nav so page content doesn't crowd it */
-.home,
-.game {
-  padding-top: 12px; /* small breathing room under the nav */
 }

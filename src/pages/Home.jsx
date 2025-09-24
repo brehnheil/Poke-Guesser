@@ -2,7 +2,6 @@
 // Landing page with hero CTA to start the game or view instructions.
 
 import { Link } from "react-router";
-import Navbar from "../components/Navbar";
 import "../css/home.css";
 
 export default function Home() {

@@ -1,12 +1,12 @@
 // HowToPlay.jsx
 // Instructions page explaining the rules of the game.
 
-import "../css/home.css"; 
+import "../css/home.css";
 
 export default function HowToPlay() {
   return (
     <>
-      <main className="home__howto" style={{ padding: "32px 20px" }}>
+      <main className="home__howto">
         <h1 className="home__title">How to Play</h1>
 
         {/* Step-by-step instructions */}
@@ -19,7 +19,7 @@ export default function HowToPlay() {
         </ol>
 
         {/* Extra tip */}
-        <p style={{ marginTop: "1rem", opacity: 0.85 }}>
+        <p className="home__tip">
           Tip: spelling matters, but we ignore capitalization and punctuation.
         </p>
       </main>

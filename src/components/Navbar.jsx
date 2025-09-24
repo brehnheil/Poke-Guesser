@@ -48,7 +48,7 @@ export default function Navbar() {
       {/* Left: primary site navigation */}
       <div className="left">
         <Link to="/">Home</Link>
-        <Link to="/game">Game</Link>
+        <Link to="/game">Play</Link>
         <Link to="/howtoplay">How To Play</Link>
         <Link to="/leaderboard">Leaderboard</Link>
       </div>
