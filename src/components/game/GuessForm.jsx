@@ -15,6 +15,7 @@ export default function GuessForm({ onSubmit }) {
         onChange={(e) => setValue(e.target.value)}
         placeholder="Who's that Pokémon?"
         autoFocus
+        autoCorrect="off"
       />
       <button className="btn btn-primary" type="submit">Guess</button>
     </form>
